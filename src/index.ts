@@ -104,7 +104,7 @@ function createRouterForLambda(
       return res
         .status(response.statusCode)
         .set(response.headers)
-        .json(JSON.parse(response.body));
+        .send(response.body);
     } catch (error) {
       logger.error(`${event.httpMethod} ${event.path} - ${500}`, error);
       return res.status(500).json({
