@@ -1,0 +1,49 @@
+{
+  "name": "lambda-local-server",
+  "version": "1.0.0-rc.0",
+  "description": "A local server for running lambdas",
+  "main": "index.js",
+  "author": "Rolf Erik Lekang <me@rolflekang.com>",
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "yarn build",
+    "build": "tsc",
+    "example": "ts-node ./example/server.ts"
+  },
+  "files": [
+    "lib/*.js",
+    "lib/*.d.ts"
+  ],
+  "dependencies": {
+    "aws-lambda": "^0.1.2",
+    "body-parser": "^1.18.3",
+    "chalk": "^2.4.1",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "get-port": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
+    "@types/body-parser": "^1.17.0",
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.0",
+    "@types/get-port": "^4.0.1",
+    "@types/jest": "^23.3.11",
+    "@types/got": "^9.3.0",
+    "@types/node": "^10.12.18",
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-config-relekang": "^1.1.1",
+    "eslint-plugin-eslint-comments": "^3.0.1",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-typescript": "^0.13.0",
+    "got": "^9.5.0",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.2",
+    "ts-jest": "^23.10.5",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2",
+    "typescript-eslint-parser": "^21.0.1"
+  }
+}

@@ -1,0 +1,7 @@
+---
+extends:
+  - relekang
+  - relekang/configs/typescript
+  - relekang/configs/jest
+env: {}
+parser: typescript-eslint-parser
