@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/relekang/lambda-local-server/compare/v1.0.2...v1.1.0) (2019-01-10)
+
+
+### Features
+
+* Make caching of node_modules optional ([fef08fd](https://github.com/relekang/lambda-local-server/commit/fef08fd))
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/relekang/lambda-local-server/compare/v1.0.1...v1.0.2) (2019-01-06)
 
