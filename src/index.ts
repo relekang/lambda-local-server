@@ -132,7 +132,9 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     Object.keys(require.cache)
-      .filter(id => !/node_modules/.test(id))
+      .filter(id =>
+        options.cacheNodeModules ? !/node_modules/.test(id) : true
+      )
       .forEach(function(id) {
         delete require.cache[id];
       });

@@ -72,6 +72,7 @@ const app = createLambdaApp({
  * `lambdas: LambdaOptions[]` - list of the lambdas to use  
  * `path?: string` - The base path of all the lambdas. If this is not set the `entry` option in each lambda must be absolute or will be resolved from current working dir.  
  * `context?: APIGatewayEventRequestContext` - Context that will be merged with the lambda context and the request info. Priority order from most to least important is: request info, lambda context and app context.
+ * `cacheNodeModules?: boolean` - If set to true node modules will not be deleted from the require cache. Defaults to `false`
 
 
 #### `LambdaOptions`

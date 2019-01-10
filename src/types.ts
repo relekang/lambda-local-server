@@ -37,6 +37,7 @@ export type AppOptions = {
   lambdas: LambdaOptions[];
   context?: OptionalApiGatewayEventRequestContext;
   path?: string;
+  cacheNodeModules?: boolean;
 };
 
 export type LambdaServer = {
