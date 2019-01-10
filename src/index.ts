@@ -138,6 +138,7 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
       .forEach(function(id) {
         delete require.cache[id];
       });
+    options.onCacheCleared && options.onCacheCleared();
     next();
   });
 

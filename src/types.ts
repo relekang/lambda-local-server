@@ -38,6 +38,7 @@ export type AppOptions = {
   context?: OptionalApiGatewayEventRequestContext;
   path?: string;
   cacheNodeModules?: boolean;
+  onCacheCleared?: () => void;
 };
 
 export type LambdaServer = {
