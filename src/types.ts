@@ -1,4 +1,9 @@
-import { AuthResponseContext } from 'aws-lambda';
+import {
+  AuthResponseContext,
+  APIGatewayProxyEvent,
+  APIGatewayProxyResult,
+  Context,
+} from 'aws-lambda';
 
 export type OptionalApiGatewayEventRequestContext = {
   accountId?: string;
@@ -25,6 +30,11 @@ export type OptionalApiGatewayEventRequestContext = {
   resourcePath?: string;
 };
 
+export type APIGatewayProxyHandler = (
+  event: APIGatewayProxyEvent,
+  context: Context
+) => Promise<APIGatewayProxyResult>;
+
 export type CognitoIdResolver =
   | (() => string | Promise<string>)
   | string
@@ -34,7 +44,7 @@ export type LambdaOptions = {
   entry: string;
   contextPath?: string;
   urls?: string[];
-  mockHeaders?: { [key: string]: string };
+  mockHeaders?: { [key: string]: string | undefined };
   context?: OptionalApiGatewayEventRequestContext;
   cognitoId?: CognitoIdResolver;
 };

@@ -5,11 +5,35 @@ import path from 'path';
 import { Server } from 'http';
 
 import * as logger from './logger';
-import { AppOptions, LambdaOptions, LambdaServer } from './types';
+import {
+  AppOptions,
+  LambdaOptions,
+  LambdaServer,
+  APIGatewayProxyHandler,
+} from './types';
 import { findPort } from './findPort';
 import { createContext } from './context';
+import { APIGatewayProxyEvent, Context } from 'aws-lambda';
 
 require('dotenv').config();
+
+// eslint-disable-next-line typescript/no-explicit-any
+function resolveLambdaFunction(module: any): APIGatewayProxyHandler {
+  if (typeof module === 'function') {
+    return module;
+  } else if (typeof module.default === 'function') {
+    return module.default;
+  } else if (typeof module.default === 'string') {
+    return module[module.default];
+  } else if (typeof module.handler === 'function') {
+    return module.handler;
+  } else {
+    throw new Error(
+      'Could not import the lambda see https://github.com/relekang/lambda-local-server ' +
+        'supported ways to export it.'
+    );
+  }
+}
 
 function createRouterForLambda(
   appOptions: AppOptions,
@@ -20,33 +44,25 @@ function createRouterForLambda(
     ? path.resolve(appOptions.path, options.entry)
     : path.resolve(options.entry);
   async function handler(req: Request, res: Response) {
-    const lambda = require(resolvedPath);
-    let fn;
-    if (typeof lambda === 'function') {
-      fn = lambda;
-    } else if (typeof lambda.default === 'function') {
-      fn = lambda.default;
-    } else if (typeof lambda.default === 'string') {
-      fn = lambda[lambda.default];
-    } else {
-      throw new Error(
-        'Could not import the lambda see https://github.com/relekang/lambda-local-server ' +
-          'supported ways to export it.'
-      );
-    }
+    const lambda = resolveLambdaFunction(require(resolvedPath));
 
-    const event = {
+    const requestContext = await createContext(appOptions, options, req);
+
+    // @ts-ignore
+    const context: Context = { identity: requestContext.identity };
+    const event: APIGatewayProxyEvent = {
       path: req.originalUrl,
       httpMethod: req.method,
       queryStringParameters: req.query,
-      requestContext: createContext(appOptions, options, req),
+      requestContext,
       pathParameters: req.params,
+      // @ts-ignore
       headers: { ...req.headers, ...(options.mockHeaders || {}) },
       body: JSON.stringify(req.body),
     };
 
     try {
-      const response = await fn(event, null);
+      const response = await lambda(event, context);
       if (response.statusCode === 500) {
         logger.error(
           `${event.httpMethod} ${event.path} - ${response.statusCode}`
