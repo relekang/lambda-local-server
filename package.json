@@ -8,6 +8,7 @@
   "scripts": {
     "prepublishOnly": "yarn build",
     "build": "tsc",
+    "test": "jest",
     "release": "standard-version -i changelog.md",
     "example": "ts-node ./example/server.ts"
   },

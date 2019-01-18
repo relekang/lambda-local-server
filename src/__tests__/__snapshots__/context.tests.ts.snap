@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createContext should create context 1`] = `
+Object {
+  "accountId": "test",
+  "apiId": "test",
+  "authorizer": undefined,
+  "httpMethod": "POST",
+  "identity": Object {
+    "accessKey": "test",
+    "accountId": "test",
+    "apiKey": "test",
+    "apiKeyId": "test",
+    "caller": "test",
+    "cognitoAuthenticationProvider": "test:undefined",
+    "cognitoAuthenticationType": "test",
+    "cognitoIdentityId": "test",
+    "cognitoIdentityPoolId": "test",
+    "sourceIp": "test",
+    "user": "test",
+    "userAgent": "test",
+    "userArn": "test",
+  },
+  "path": "/",
+  "requestId": "test",
+  "requestTimeEpoch": 1357945200000,
+  "resourceId": "test",
+  "resourcePath": "test",
+  "stage": "test",
+}
+`;

@@ -25,18 +25,25 @@ export type OptionalApiGatewayEventRequestContext = {
   resourcePath?: string;
 };
 
+export type CognitoIdResolver =
+  | (() => string | Promise<string>)
+  | string
+  | undefined;
+
 export type LambdaOptions = {
   entry: string;
   contextPath?: string;
   urls?: string[];
   mockHeaders?: { [key: string]: string };
   context?: OptionalApiGatewayEventRequestContext;
+  cognitoId?: CognitoIdResolver;
 };
 
 export type AppOptions = {
   lambdas: LambdaOptions[];
-  context?: OptionalApiGatewayEventRequestContext;
   path?: string;
+  context?: OptionalApiGatewayEventRequestContext;
+  cognitoId?: CognitoIdResolver;
   cacheNodeModules?: boolean;
   onCacheCleared?: () => void;
 };

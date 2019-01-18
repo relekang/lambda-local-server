@@ -72,6 +72,7 @@ const app = createLambdaApp({
  * `lambdas: LambdaOptions[]` - list of the lambdas to use  
  * `path?: string` - The base path of all the lambdas. If this is not set the `entry` option in each lambda must be absolute or will be resolved from current working dir.  
  * `context?: APIGatewayEventRequestContext` - Context that will be merged with the lambda context and the request info. Priority order from most to least important is: request info, lambda context and app context.
+ * `cognitoId?: | (() => string | Promise<string>) | string | undefined` - Resolve a cognito id that will be put into the context.
  * `cacheNodeModules?: boolean` - If set to true node modules will not be deleted from the require cache. Defaults to `false`
  * `onCacheCleared?: () => void` - Is called when we clear the require cache. If something needs to be mocked set it up here.
 
@@ -82,3 +83,4 @@ const app = createLambdaApp({
 * `urls?: string[]` - List of urls, used for parameter mapping. Supports what express supports for parameters. See "Mapping url paremeters" above.
 * `mockHeaders?: { [key: string]: string }` - Object of strings with the headers that should be hard coded. Is useful for things like mocking authorization or other headers that the API Gateway populates.
  * `context?: APIGatewayEventRequestContext` - Context that will be merged with the app context and the request info. Priority order from most to least important is: request info, lambda context and app context.
+ * `cognitoId?: | (() => string | Promise<string>) | string | undefined` - Resolve a cognito id that will be put into the context. This will have precedense over the one specied in the app config.
