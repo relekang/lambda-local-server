@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/relekang/lambda-local-server/compare/v1.2.0...v2.0.0) (2019-01-18)
+
+
+### Bug Fixes
+
+* Add support for lambda.handler ([6c977ae](https://github.com/relekang/lambda-local-server/commit/6c977ae))
+
+
+### Features
+
+* Add support for cognitoId in app and lambda config ([b0c1a0f](https://github.com/relekang/lambda-local-server/commit/b0c1a0f)), closes [#1](https://github.com/relekang/lambda-local-server/issues/1)
+
+
+### BREAKING CHANGES
+
+* This removes the environment variable COGNITO_ID, the
+workaround is to put `cognitoId: process.env.COGNITO_ID` in app config.
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/relekang/lambda-local-server/compare/v1.1.0...v1.2.0) (2019-01-10)
 
