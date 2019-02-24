@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/relekang/lambda-local-server/compare/v2.1.0...v2.2.0) (2019-02-24)
+
+
+### Bug Fixes
+
+* Add warning about production ([08e06fe](https://github.com/relekang/lambda-local-server/commit/08e06fe))
+
+
+### Features
+
+* Add fallback 404 response that lists lambdas ([75b706e](https://github.com/relekang/lambda-local-server/commit/75b706e))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/relekang/lambda-local-server/compare/v2.0.0...v2.1.0) (2019-02-24)
 
