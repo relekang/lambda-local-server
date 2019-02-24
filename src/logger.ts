@@ -9,6 +9,18 @@ export function info(...args: unknown[]) {
   console.info(...args);
 }
 
+export function warn(...args: unknown[]) {
+  // eslint-disable-next-line no-console
+  console.error(
+    ...args.map(value => {
+      if (typeof value === 'string') {
+        return chalk`{yellow ${value}}`;
+      }
+      return value;
+    })
+  );
+}
+
 export function error(...args: unknown[]) {
   // eslint-disable-next-line no-console
   console.error(

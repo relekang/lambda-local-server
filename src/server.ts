@@ -102,6 +102,13 @@ function createRouterForLambda(
 }
 
 export function createLambdaApp(options: AppOptions): LambdaServer {
+  if (process.env.NODE_ENV === 'production') {
+    logger.warn(
+      'It seems like you are running in production mode. ' +
+        'Are you sure you want to run lambda-local-server in production? ' +
+        'It is not made for that.'
+    );
+  }
   const app = express();
   app.use(bodyParser.json());
   app.use(cors());
