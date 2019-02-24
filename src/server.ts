@@ -122,6 +122,16 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
     app.use(lambda.contextPath || '/', createRouterForLambda(options, lambda));
   });
 
+  app.get('*', (req, res) => {
+    logger.error(`${req.method} ${req.path} - ${404}`);
+    res.status(404).json({
+      lambdas: options.lambdas.map(lambda => ({
+        entry: lambda.entry,
+        url: `${req.protocol}://${req.headers.host}${lambda.contextPath}`,
+      })),
+    });
+  });
+
   app.use((error: Error, req: Request, res: Response, _next: NextFunction) => {
     logger.error(`${req.method} ${req.path} - ${500}`, error);
     res.status(500).json({ error });

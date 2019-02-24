@@ -9,7 +9,12 @@ jest.mock('../logger.ts');
 
 let app;
 let url: string;
-let close: () => void;
+let listeners: {
+  url: string;
+  close: () => void;
+}[] = [];
+let close = () => listeners.forEach(listener => listener.close());
+
 beforeAll(async () => {
   app = createLambdaApp({
     path: path.resolve(__dirname, '../../example/src/'),
@@ -31,8 +36,8 @@ beforeAll(async () => {
     ],
   });
   const listener = await listen(app);
+  listeners.push(listener);
   url = listener.url;
-  close = listener.close;
 });
 
 beforeEach(() => {
@@ -88,4 +93,34 @@ test('GET /error', async () => {
     expect(logger.error.mock.calls[0][1].message).toEqual('All the errors! 🔥');
   }
   expect(catched).toEqual(true);
+});
+
+test('GET /non-existing without index', async () => {
+  const app2 = createLambdaApp({
+    path: path.resolve(__dirname, '../../example/src/'),
+    lambdas: [
+      {
+        entry: 'iceCreams',
+        contextPath: '/ice-creams',
+        urls: ['/:id/edit'],
+      },
+    ],
+  });
+  const listener = await listen(app2);
+  listeners.push(listener);
+
+  const response = await got(`${listener.url}/non-existing`, {
+    json: true,
+    throwHttpErrors: false,
+  });
+
+  expect(response.statusCode).toEqual(404);
+  expect(response.body).toEqual({
+    lambdas: [
+      {
+        entry: 'iceCreams',
+        url: 'http://localhost:3001/ice-creams',
+      },
+    ],
+  });
 });
