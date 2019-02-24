@@ -1,6 +1,9 @@
+import { LambdaServer } from '../types';
+
 export async function listen(
-  app: any
+  app: LambdaServer,
+  port?: number
 ): Promise<{ url: string; close: () => void }> {
-  const port = await app.listen();
-  return { url: `http://localhost:${port}`, close: () => app.close() };
+  const portInUse = await app.listen(port);
+  return { url: `http://localhost:${portInUse}`, close: () => app.close() };
 }

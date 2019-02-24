@@ -106,7 +106,7 @@ test('GET /non-existing without index', async () => {
       },
     ],
   });
-  const listener = await listen(app2);
+  const listener = await listen(app2, 12345);
   listeners.push(listener);
 
   const response = await got(`${listener.url}/non-existing`, {
@@ -119,7 +119,7 @@ test('GET /non-existing without index', async () => {
     lambdas: [
       {
         entry: 'iceCreams',
-        url: 'http://localhost:3001/ice-creams',
+        url: 'http://localhost:12345/ice-creams',
       },
     ],
   });
