@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/relekang/lambda-local-server/compare/v2.0.0...v2.1.0) (2019-02-24)
+
+
+### Features
+
+* Add support for callback based handlers ([5ec4655](https://github.com/relekang/lambda-local-server/commit/5ec4655))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/relekang/lambda-local-server/compare/v1.2.0...v2.0.0) (2019-01-18)
 
