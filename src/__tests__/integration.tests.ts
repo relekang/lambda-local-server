@@ -23,7 +23,10 @@ beforeAll(async () => {
         entry: 'error',
         contextPath: '/error',
       },
-
+      {
+        entry: 'callback',
+        contextPath: '/callback',
+      },
       { entry: 'index' },
     ],
   });
@@ -50,6 +53,13 @@ test('GET /', async () => {
 
   expect(response.body).toEqual({ name: 'index', path: '/' });
   expect(logger.info).toHaveBeenCalledWith('GET / - 200');
+});
+
+test('GET /callback', async () => {
+  const response = await got(`${url}/callback`, { json: true });
+
+  expect(response.body).toEqual({ name: 'callback', path: '/callback' });
+  expect(logger.info).toHaveBeenCalledWith('GET /callback - 200');
 });
 
 test('GET /ice-creams/:id/edit', async () => {

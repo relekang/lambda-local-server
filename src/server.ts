@@ -14,6 +14,7 @@ import {
 import { findPort } from './findPort';
 import { createContext } from './context';
 import { APIGatewayProxyEvent, Context } from 'aws-lambda';
+import { promisify } from 'util';
 
 require('dotenv').config();
 
@@ -44,7 +45,11 @@ function createRouterForLambda(
     ? path.resolve(appOptions.path, options.entry)
     : path.resolve(options.entry);
   async function handler(req: Request, res: Response) {
-    const lambda = resolveLambdaFunction(require(resolvedPath));
+    let lambda = resolveLambdaFunction(require(resolvedPath));
+
+    if (lambda.length === 3) {
+      lambda = promisify(lambda);
+    }
 
     const requestContext = await createContext(appOptions, options, req);
 

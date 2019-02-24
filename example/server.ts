@@ -4,31 +4,32 @@ import path from 'path';
 import { createLambdaApp } from '../src';
 
 const app = createLambdaApp({
-  path: path.resolve(__dirname),
+  path: path.resolve(__dirname, 'src'),
   lambdas: [
     {
-      entry: './src/iceCreams',
+      entry: 'iceCreams',
       contextPath: '/ice-creams',
       urls: ['/:id/edit'],
     },
     {
-      entry: './src/error',
+      entry: 'error',
       contextPath: '/error',
     },
     {
-      entry: './src/500-response',
+      entry: '500-response',
       contextPath: '/500',
     },
     {
-      entry: './src/counter',
+      entry: 'counter',
       contextPath: '/c',
     },
     {
-      entry: './src/headers',
+      entry: 'headers',
       contextPath: '/headers',
       mockHeaders: { 'content-type': 'woot' },
     },
-    { entry: './src/index' },
+    { entry: 'callback', contextPath: '/callback' },
+    { entry: 'index' },
   ],
 });
 
