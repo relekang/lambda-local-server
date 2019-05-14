@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/relekang/lambda-local-server/compare/v2.2.0...v2.3.0) (2019-05-14)
+
+
+### Features
+
+* Add support for timing requests with console.time ([a7f354f](https://github.com/relekang/lambda-local-server/commit/a7f354f))
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/relekang/lambda-local-server/compare/v2.1.0...v2.2.0) (2019-02-24)
 
