@@ -67,7 +67,18 @@ function createRouterForLambda(
     };
 
     try {
+      const timerKey = `request-${req.method}-${req.originalUrl}-${Math.floor(
+        Math.random() * 1000
+      )}`;
+      if (options.enableTimers) {
+        // eslint-disable-next-line no-console
+        console.time(timerKey);
+      }
       const response = await lambda(event, context);
+      if (options.enableTimers) {
+        // eslint-disable-next-line no-console
+        console.timeEnd(timerKey);
+      }
       if (response.statusCode === 500) {
         logger.error(
           `${event.httpMethod} ${event.path} - ${response.statusCode}`

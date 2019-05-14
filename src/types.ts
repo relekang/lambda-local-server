@@ -47,6 +47,7 @@ export type LambdaOptions = {
   mockHeaders?: { [key: string]: string | undefined };
   context?: OptionalApiGatewayEventRequestContext;
   cognitoId?: CognitoIdResolver;
+  enableTimers?: boolean;
 };
 
 export type AppOptions = {

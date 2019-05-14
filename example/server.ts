@@ -10,6 +10,7 @@ const app = createLambdaApp({
       entry: 'iceCreams',
       contextPath: '/ice-creams',
       urls: ['/:id/edit'],
+      enableTimers: true,
     },
     {
       entry: 'error',
