@@ -66,6 +66,11 @@ function createRouterForLambda(
       body: JSON.stringify(req.body),
     };
 
+    if (event.headers.authorization) {
+      event.headers.Authorization = event.headers.authorization;
+      delete event.headers.authorization;
+    }
+
     try {
       const timerKey = `request-${req.method}-${req.originalUrl}-${Math.floor(
         Math.random() * 1000
