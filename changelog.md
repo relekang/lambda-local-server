@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/relekang/lambda-local-server/compare/v2.3.0...v2.3.1) (2019-07-03)
+
+
+### Bug Fixes
+
+* Make sure authorization header is with capital a ([a213f00](https://github.com/relekang/lambda-local-server/commit/a213f00))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/relekang/lambda-local-server/compare/v2.2.0...v2.3.0) (2019-05-14)
 
