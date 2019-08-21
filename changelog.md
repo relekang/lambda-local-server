@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/relekang/lambda-local-server/compare/v2.3.1...v3.0.0) (2019-08-21)
+
+
+### Features
+
+* Add reloading of files when they are changed ([6f293f3](https://github.com/relekang/lambda-local-server/commit/6f293f3))
+
+
+### BREAKING CHANGES
+
+* This removes the reloading of the code on each request.
+
+
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://github.com/relekang/lambda-local-server/compare/v2.3.0...v2.3.1) (2019-07-03)
 
