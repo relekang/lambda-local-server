@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
 import { Server } from 'http';
+import chokidar from 'chokidar';
+import createDebugLogger from 'debug';
 
 import * as logger from './logger';
 import {
@@ -17,6 +19,8 @@ import { APIGatewayProxyEvent, Context } from 'aws-lambda';
 import { promisify } from 'util';
 
 require('dotenv').config();
+
+const debug = createDebugLogger('lambda-local-server:server');
 
 // eslint-disable-next-line typescript/no-explicit-any
 function resolveLambdaFunction(module: any): APIGatewayProxyHandler {
@@ -129,17 +133,32 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
   app.use(bodyParser.json());
   app.use(cors());
 
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    Object.keys(require.cache)
-      .filter(id =>
-        options.cacheNodeModules ? !/node_modules/.test(id) : true
-      )
-      .forEach(function(id) {
-        delete require.cache[id];
-      });
-    options.onCacheCleared && options.onCacheCleared();
-    next();
+  var watcher = chokidar.watch('./**/*.{js,ts}', {
+    cwd: options.path || './',
+    persistent: true,
   });
+
+  watcher
+    .on('all', function(event, path) {
+      debug(`Filewatching event "${event} for ${path}"`);
+    })
+    .on('change', function(filename) {
+      logger.log(`Detected changes to ${filename} reloading..`);
+      Object.keys(require.cache)
+        .filter(id =>
+          options.cacheNodeModules ? !/node_modules/.test(id) : true
+        )
+        .forEach(function(id) {
+          delete require.cache[id];
+        });
+      options.lambdas.forEach(lambda => {
+        const resolvedPath = options.path
+          ? path.resolve(options.path, lambda.entry)
+          : path.resolve(lambda.entry);
+        require(resolvedPath);
+      });
+      options.onCacheCleared && options.onCacheCleared();
+    });
 
   options.lambdas.forEach(lambda => {
     app.use(lambda.contextPath || '/', createRouterForLambda(options, lambda));

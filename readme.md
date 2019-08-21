@@ -1,7 +1,6 @@
 # lambda-local-server
 
 > A server for running lambdas with hot reloading of the lambda code. 
-> The goal is to be as lightweight and provide a clean context for each request.
 
 ## Installation
 
