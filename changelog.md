@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/relekang/lambda-local-server/compare/v3.0.0...v3.0.1) (2019-08-28)
+
+
+### Bug Fixes
+
+* Add higher limit on body length ([bbc0824](https://github.com/relekang/lambda-local-server/commit/bbc0824))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/relekang/lambda-local-server/compare/v2.3.1...v3.0.0) (2019-08-21)
 
