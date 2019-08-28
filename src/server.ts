@@ -130,7 +130,7 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
     );
   }
   const app = express();
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ limit: '10mb' }));
   app.use(cors());
 
   var watcher = chokidar.watch('./**/*.{js,ts}', {
