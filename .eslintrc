@@ -3,5 +3,6 @@ extends:
   - relekang
   - relekang/configs/typescript
   - relekang/configs/jest
-env: {}
-parser: typescript-eslint-parser
+parser: '@typescript-eslint/parser'
+env:
+  node: true

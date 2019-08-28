@@ -22,7 +22,7 @@ require('dotenv').config();
 
 const debug = createDebugLogger('lambda-local-server:server');
 
-// eslint-disable-next-line typescript/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function resolveLambdaFunction(module: any): APIGatewayProxyHandler {
   if (typeof module === 'function') {
     return module;
@@ -80,12 +80,10 @@ function createRouterForLambda(
         Math.random() * 1000
       )}`;
       if (options.enableTimers) {
-        // eslint-disable-next-line no-console
         console.time(timerKey);
       }
       const response = await lambda(event, context);
       if (options.enableTimers) {
-        // eslint-disable-next-line no-console
         console.timeEnd(timerKey);
       }
       if (response.statusCode === 500) {
@@ -180,9 +178,9 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
   });
 
   let server: Server;
-  function listen(port?: number | undefined) {
-    return new Promise<number>(async (resolve, reject) => {
-      const portToUse = await findPort(port);
+  async function listen(port?: number | undefined) {
+    const portToUse = await findPort(port);
+    return new Promise<number>((resolve, reject) => {
       server = app
         .listen(portToUse, (error: Error) => {
           if (error) {
