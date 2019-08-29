@@ -5,6 +5,9 @@ import path from 'path';
 import { Server } from 'http';
 import chokidar from 'chokidar';
 import createDebugLogger from 'debug';
+import { APIGatewayProxyEvent, Context } from 'aws-lambda';
+import { promisify } from 'util';
+import debounce from 'debounce';
 
 import * as logger from './logger';
 import {
@@ -15,8 +18,6 @@ import {
 } from './types';
 import { findPort } from './findPort';
 import { createContext } from './context';
-import { APIGatewayProxyEvent, Context } from 'aws-lambda';
-import { promisify } from 'util';
 
 require('dotenv').config();
 
@@ -140,23 +141,26 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
     .on('all', function(event, path) {
       debug(`Filewatching event "${event} for ${path}"`);
     })
-    .on('change', function(filename) {
-      logger.log(`Detected changes to ${filename} reloading..`);
-      Object.keys(require.cache)
-        .filter(id =>
-          options.cacheNodeModules ? !/node_modules/.test(id) : true
-        )
-        .forEach(function(id) {
-          delete require.cache[id];
+    .on(
+      'change',
+      debounce(function(filename) {
+        logger.log(`Detected changes to ${filename} reloading..`);
+        Object.keys(require.cache)
+          .filter(id =>
+            options.cacheNodeModules ? !/node_modules/.test(id) : true
+          )
+          .forEach(function(id) {
+            delete require.cache[id];
+          });
+        options.lambdas.forEach(lambda => {
+          const resolvedPath = options.path
+            ? path.resolve(options.path, lambda.entry)
+            : path.resolve(lambda.entry);
+          require(resolvedPath);
         });
-      options.lambdas.forEach(lambda => {
-        const resolvedPath = options.path
-          ? path.resolve(options.path, lambda.entry)
-          : path.resolve(lambda.entry);
-        require(resolvedPath);
-      });
-      options.onCacheCleared && options.onCacheCleared();
-    });
+        options.onCacheCleared && options.onCacheCleared();
+      }, 200)
+    );
 
   options.lambdas.forEach(lambda => {
     app.use(lambda.contextPath || '/', createRouterForLambda(options, lambda));
