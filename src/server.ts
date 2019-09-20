@@ -8,6 +8,7 @@ import createDebugLogger from 'debug';
 import { APIGatewayProxyEvent, Context } from 'aws-lambda';
 import { promisify } from 'util';
 import debounce from 'debounce';
+import userHome from 'user-home';
 
 import * as logger from './logger';
 import {
@@ -132,35 +133,50 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(cors());
 
-  var watcher = chokidar.watch('./**/*.{js,ts}', {
+  function onFileChange(filename: string) {
+    logger.log(`Detected changes to ${filename} reloading..`);
+    Object.keys(require.cache)
+      .filter(id =>
+        options.cacheNodeModules ? !/node_modules/.test(id) : true
+      )
+      .forEach(function(id) {
+        delete require.cache[id];
+      });
+    options.lambdas.forEach(lambda => {
+      const resolvedPath = options.path
+        ? path.resolve(options.path, lambda.entry)
+        : path.resolve(lambda.entry);
+      require(resolvedPath);
+    });
+    options.onCacheCleared && options.onCacheCleared();
+  }
+
+  const projectWatcher = chokidar.watch('./**/*.{js,ts}', {
     cwd: options.path || './',
     persistent: true,
   });
 
-  watcher
+  projectWatcher
     .on('all', function(event, path) {
       debug(`Filewatching event "${event} for ${path}"`);
     })
-    .on(
-      'change',
-      debounce(function(filename) {
-        logger.log(`Detected changes to ${filename} reloading..`);
-        Object.keys(require.cache)
-          .filter(id =>
-            options.cacheNodeModules ? !/node_modules/.test(id) : true
-          )
-          .forEach(function(id) {
-            delete require.cache[id];
-          });
-        options.lambdas.forEach(lambda => {
-          const resolvedPath = options.path
-            ? path.resolve(options.path, lambda.entry)
-            : path.resolve(lambda.entry);
-          require(resolvedPath);
-        });
-        options.onCacheCleared && options.onCacheCleared();
-      }, 200)
+    .on('change', debounce(onFileChange, 200));
+
+  if (options.watchCredentials) {
+    const credentialsWatcher = chokidar.watch(
+      path.join(userHome, '.aws', 'credentials'),
+      {
+        cwd: options.path || './',
+        persistent: true,
+      }
     );
+
+    credentialsWatcher
+      .on('all', function(event, path) {
+        debug(`Filewatching event "${event} for ${path}"`);
+      })
+      .on('change', debounce(onFileChange, 200));
+  }
 
   options.lambdas.forEach(lambda => {
     app.use(lambda.contextPath || '/', createRouterForLambda(options, lambda));

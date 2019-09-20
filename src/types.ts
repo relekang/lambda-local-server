@@ -56,6 +56,7 @@ export type AppOptions = {
   context?: OptionalApiGatewayEventRequestContext;
   cognitoId?: CognitoIdResolver;
   cacheNodeModules?: boolean;
+  watchCredentials?: boolean;
   onCacheCleared?: () => void;
 };
 

@@ -74,6 +74,7 @@ const app = createLambdaApp({
  * `cognitoId?: | (() => string | Promise<string>) | string | undefined` - Resolve a cognito id that will be put into the context.
  * `cacheNodeModules?: boolean` - If set to true node modules will not be deleted from the require cache. Defaults to `false`
  * `onCacheCleared?: () => void` - Is called when we clear the require cache. If something needs to be mocked set it up here.
+ * `watchCredentials: boolean` - If set to true the code will be reloaded on changes to `~/.aws/credentials` useful when using some MFA tool to log into aws often. When set to false it is necessary to restart the server to reload. The only thing read in the codebase is the filename, not the content of the credentials file.
 
 
 #### `LambdaOptions`
