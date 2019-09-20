@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/relekang/lambda-local-server/compare/v3.1.0...v3.2.0) (2019-09-20)
+
+
+### Features
+
+* Add optional watching of aws credentials ([0e7527e](https://github.com/relekang/lambda-local-server/commit/0e7527e))
+
 ## [3.1.0](https://github.com/relekang/lambda-local-server/compare/v3.0.2...v3.1.0) (2019-08-29)
 
 
