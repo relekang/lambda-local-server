@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/relekang/lambda-local-server/compare/v3.2.0...v3.2.1) (2019-09-23)
+
+
+### Bug Fixes
+
+* Add catching of error on failed reloading ([4d231c6](https://github.com/relekang/lambda-local-server/commit/4d231c6))
+
 ## [3.2.0](https://github.com/relekang/lambda-local-server/compare/v3.1.0...v3.2.0) (2019-09-20)
 
 
