@@ -19,6 +19,7 @@ import {
 } from './types';
 import { findPort } from './findPort';
 import { createContext } from './context';
+import chalk from 'chalk';
 
 require('dotenv').config();
 
@@ -134,21 +135,25 @@ export function createLambdaApp(options: AppOptions): LambdaServer {
   app.use(cors());
 
   function onFileChange(filename: string) {
-    logger.log(`Detected changes to ${filename} reloading..`);
-    Object.keys(require.cache)
-      .filter(id =>
-        options.cacheNodeModules ? !/node_modules/.test(id) : true
-      )
-      .forEach(function(id) {
-        delete require.cache[id];
+    try {
+      logger.log(`Detected changes to ${filename} reloading..`);
+      Object.keys(require.cache)
+        .filter(id =>
+          options.cacheNodeModules ? !/node_modules/.test(id) : true
+        )
+        .forEach(function(id) {
+          delete require.cache[id];
+        });
+      options.lambdas.forEach(lambda => {
+        const resolvedPath = options.path
+          ? path.resolve(options.path, lambda.entry)
+          : path.resolve(lambda.entry);
+        require(resolvedPath);
       });
-    options.lambdas.forEach(lambda => {
-      const resolvedPath = options.path
-        ? path.resolve(options.path, lambda.entry)
-        : path.resolve(lambda.entry);
-      require(resolvedPath);
-    });
-    options.onCacheCleared && options.onCacheCleared();
+      options.onCacheCleared && options.onCacheCleared();
+    } catch (error) {
+      console.error(chalk.red(error.stack ? error.stack : error));
+    }
   }
 
   const projectWatcher = chokidar.watch('./**/*.{js,ts}', {
