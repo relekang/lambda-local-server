@@ -63,7 +63,7 @@ function createRouterForLambda(
     // @ts-ignore
     const context: Context = { identity: requestContext.identity };
     const event: APIGatewayProxyEvent = {
-      path: req.originalUrl,
+      path: req.path,
       httpMethod: req.method,
       queryStringParameters: req.query,
       requestContext,
