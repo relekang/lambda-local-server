@@ -1,6 +1,6 @@
 {
   "name": "lambda-local-server",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "A local server for running lambdas",
   "main": "lib/index.js",
   "author": "Rolf Erik Lekang <me@rolflekang.com>",

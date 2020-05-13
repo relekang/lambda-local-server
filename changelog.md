@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.2](https://github.com/relekang/lambda-local-server/compare/v3.2.1...v3.2.2) (2020-05-13)
+
+
+### Bug Fixes
+
+* Prefix path with contextpath ([d2ee520](https://github.com/relekang/lambda-local-server/commit/d2ee520))
+* Use path instead of originalUrl ([#6](https://github.com/relekang/lambda-local-server/issues/6)) ([c55c9b7](https://github.com/relekang/lambda-local-server/commit/c55c9b7))
+
 ### [3.2.1](https://github.com/relekang/lambda-local-server/compare/v3.2.0...v3.2.1) (2019-09-23)
 
 
